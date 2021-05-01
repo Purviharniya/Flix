@@ -3,7 +3,7 @@
 <?php
 
 if (isset($_POST['submit-btn'])) {
-
+    $username = $_POST['uname'];
 }
 
 ?>

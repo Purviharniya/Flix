@@ -2,8 +2,18 @@
     scrolling="no"></iframe> -->
 
 <?php
+require_once 'config.php';
+require_once 'includes/classes/FormSanitizer.php';
+require_once 'includes/classes/Account.php';
 
 if (isset($_POST['submit-btn'])) {
+    $firstname = FormSanitizer::sanitizeFormString($_POST['fname']);
+    $lastname = FormSanitizer::sanitizeFormString($_POST['lname']);
+    $username = FormSanitizer::sanitizeFormUsername($_POST['uname']);
+    $email = FormSanitizer::sanitizeFormEmail($_POST['email']);
+    $conemail = FormSanitizer::sanitizeFormEmail($_POST['cemail']);
+    $pass = FormSanitizer::sanitizeFormPassword($_POST['password']);
+    $confirmpass = FormSanitizer::sanitizeFormPassword($_POST['confirmpass']);
 
 }
 
