@@ -4,7 +4,10 @@
 <?php
 require_once 'config.php';
 require_once 'includes/classes/FormSanitizer.php';
+require_once 'includes/classes/Constants.php';
 require_once 'includes/classes/Account.php';
+
+$account = new Account($con);
 
 if (isset($_POST['submit-btn'])) {
     $firstname = FormSanitizer::sanitizeFormString($_POST['fname']);
@@ -15,6 +18,13 @@ if (isset($_POST['submit-btn'])) {
     $pass = FormSanitizer::sanitizeFormPassword($_POST['password']);
     $confirmpass = FormSanitizer::sanitizeFormPassword($_POST['confirmpass']);
 
+    $success = $account->register($firstname, $lastname, $username, $email, $conemail, $pass, $confirmpass);
+
+    if ($success == true) {
+        //store session variables
+        $_SESSION['userLoggedIn'] = $username;
+        header("Location: index.php");
+    }
 }
 
 ?>
@@ -42,20 +52,31 @@ if (isset($_POST['submit-btn'])) {
                     <h3 class="py-2 mb-5">Sign Up</h3>
                     <form action="register.php" method="POST">
                         <div class="form-group">
+                            <?php echo $account->getError(Constants::$firstNameChars); ?>
+                            <?php echo $account->getError(Constants::$firstNameInvalid); ?>
+
                             <label for="fname">First Name</label>
                             <input type="text" class="form-control" name='fname' id="fname" placeholder="Purvi"
                                 required>
                         </div>
                         <div class="form-group">
+                            <?php echo $account->getError(Constants::$lastNameChars); ?>
+                            <?php echo $account->getError(Constants::$lastNameInvalid); ?>
+
                             <label for="lname">Last Name</label>
                             <input type="text" class="form-control" name='lname' id="lname" placeholder="Harniya"
                                 required>
                         </div>
                         <div class="form-group">
+                            <?php echo $account->getError(Constants::$userNameChars); ?>
+                            <?php echo $account->getError(Constants::$userNameDup); ?>
                             <label for="uname">User Name</label>
                             <input type="text" class="form-control" name='uname' id="uname" placeholder="pjh" required>
                         </div>
                         <div class="form-group">
+                            <?php echo $account->getError(Constants::$emailInvalid); ?>
+                            <?php echo $account->getError(Constants::$emailMatch); ?>
+                            <?php echo $account->getError(Constants::$emailDup); ?>
                             <label for="email">Email</label>
                             <input type="email" class="form-control" name='email' id="email"
                                 placeholder="purvi@gmail.com" required>
@@ -66,6 +87,8 @@ if (isset($_POST['submit-btn'])) {
                                 placeholder="purvi@gmail.com" required>
                         </div>
                         <div class="form-group">
+                            <?php echo $account->getError(Constants::$passwordMatch); ?>
+                            <?php echo $account->getError(Constants::$invalidPassword); ?>
                             <label for="password">Password</label>
                             <input type="password" class="form-control" name='password' id="password" required>
                         </div>

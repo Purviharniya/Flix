@@ -2,8 +2,24 @@
     scrolling="no"></iframe> -->
 <?php
 
+require_once 'config.php';
+require_once 'includes/classes/FormSanitizer.php';
+require_once 'includes/classes/Constants.php';
+require_once 'includes/classes/Account.php';
+
+$account = new Account($con);
+
 if (isset($_POST['submit-btn'])) {
-    $username = $_POST['uname'];
+    $username = FormSanitizer::sanitizeFormUsername($_POST['uname']);
+    $pass = FormSanitizer::sanitizeFormPassword($_POST['password']);
+
+    $success = $account->login($username, $pass);
+
+    if ($success == true) {
+        //store session variables
+        $_SESSION['userLoggedIn'] = $username;
+        header("Location: index.php");
+    }
 }
 
 ?>
@@ -32,6 +48,7 @@ if (isset($_POST['submit-btn'])) {
                     <form action="login.php" method="POST">
 
                         <div class="form-group">
+                            <?php echo $account->getError(Constants::$loginFailed); ?>
                             <label for="uname">User Name</label>
                             <input type="text" class="form-control" name='uname' id="uname" placeholder="pjh" required>
                         </div>
@@ -42,7 +59,7 @@ if (isset($_POST['submit-btn'])) {
                         </div>
 
                         <div class="form-group">
-                            <input type="submit" name="submit-btn" class="btn btn-primary" value="Sign Up">
+                            <input type="submit" name="submit-btn" class="btn btn-primary" value="Sign In">
                         </div>
                         <div class="form-group">
                             <a href="register.php"> Don't have an account? Sign Up</a>
