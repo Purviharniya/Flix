@@ -16,9 +16,31 @@ if (isset($_POST['submit-btn'])) {
     $success = $account->login($username, $pass);
 
     if ($success == true) {
+
         //store session variables
         $_SESSION['userLoggedIn'] = $username;
+
+        //if remember me was checked, store the cookies
+        if (!empty($_POST['rem-me'])) {
+            setcookie("member_login", $username, time() + (10 * 365 * 24 * 60 * 60));
+            setcookie("member_password", $pass, time() + (10 * 365 * 24 * 60 * 60));
+        } else {
+            if (isset($_COOKIE["member_login"])) {
+                setcookie("member_login", "");
+            }
+            if (isset($_COOKIE["member_password"])) {
+                setcookie("member_password", "");
+            }
+        }
+
         header("Location: index.php");
+    }
+}
+
+function getInputs($name)
+{
+    if (isset($_POST[$name])) {
+        echo $_POST[$name];
     }
 }
 
@@ -50,13 +72,32 @@ if (isset($_POST['submit-btn'])) {
                         <div class="form-group">
                             <?php echo $account->getError(Constants::$loginFailed); ?>
                             <label for="uname">User Name</label>
-                            <input type="text" class="form-control" name='uname' id="uname" placeholder="pjh" required>
+                            <input type="text" class="form-control" name='uname' id="uname" placeholder="pjh" value="<?php
+
+if (isset($_COOKIE["member_login"])) {
+    echo $_COOKIE["member_login"];
+} else {
+    getInputs('uname');
+}
+?>" required>
                         </div>
 
                         <div class="form-group">
                             <label for="password">Password</label>
-                            <input type="password" class="form-control" name='password' id="password" required>
+                            <input type="password" class="form-control" name='password' id="password" value="<?php
+if (isset($_COOKIE["member_password"])) {
+    echo $_COOKIE["member_password"];
+}
+?>" required>
                         </div>
+
+                        <div class="form-group flex-row">
+                            <input class="form-check" type="checkbox" name='rem-me'
+                                <?php if (isset($_COOKIE["member_login"])) {?> checked <?php }?>
+                                style="display:revert;">
+                            <label class="form-check-label">Remember me</label>
+                        </div>
+
 
                         <div class="form-group">
                             <input type="submit" name="submit-btn" class="btn btn-primary" value="Sign In">

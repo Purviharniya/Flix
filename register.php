@@ -27,6 +27,13 @@ if (isset($_POST['submit-btn'])) {
     }
 }
 
+function getInputs($name)
+{
+    if (isset($_POST[$name])) {
+        echo $_POST[$name];
+    }
+}
+
 ?>
 
 
@@ -57,7 +64,7 @@ if (isset($_POST['submit-btn'])) {
 
                             <label for="fname">First Name</label>
                             <input type="text" class="form-control" name='fname' id="fname" placeholder="Purvi"
-                                required>
+                                value="<?php getInputs('fname');?>" required>
                         </div>
                         <div class="form-group">
                             <?php echo $account->getError(Constants::$lastNameChars); ?>
@@ -65,13 +72,14 @@ if (isset($_POST['submit-btn'])) {
 
                             <label for="lname">Last Name</label>
                             <input type="text" class="form-control" name='lname' id="lname" placeholder="Harniya"
-                                required>
+                                value="<?php getInputs('lname');?>" required>
                         </div>
                         <div class="form-group">
                             <?php echo $account->getError(Constants::$userNameChars); ?>
                             <?php echo $account->getError(Constants::$userNameDup); ?>
                             <label for="uname">User Name</label>
-                            <input type="text" class="form-control" name='uname' id="uname" placeholder="pjh" required>
+                            <input type="text" class="form-control" name='uname' id="uname" placeholder="pjh"
+                                value="<?php getInputs('uname');?>" required>
                         </div>
                         <div class="form-group">
                             <?php echo $account->getError(Constants::$emailInvalid); ?>
@@ -79,12 +87,12 @@ if (isset($_POST['submit-btn'])) {
                             <?php echo $account->getError(Constants::$emailDup); ?>
                             <label for="email">Email</label>
                             <input type="email" class="form-control" name='email' id="email"
-                                placeholder="purvi@gmail.com" required>
+                                value="<?php getInputs('email');?>" placeholder="purvi@gmail.com" required>
                         </div>
                         <div class="form-group">
                             <label for="cemail">Confirm Email</label>
                             <input type="email" class="form-control" name='cemail' id="cemail"
-                                placeholder="purvi@gmail.com" required>
+                                value="<?php getInputs('cemail');?>" placeholder="purvi@gmail.com" required>
                         </div>
                         <div class="form-group">
                             <?php echo $account->getError(Constants::$passwordMatch); ?>
