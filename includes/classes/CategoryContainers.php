@@ -36,6 +36,18 @@ class CategoryContainers
         } else {
             //get movie entities
         }
+
+        if (sizeof($entities) == 0) {
+            return;
+        }
+
+        $entitiesHTML = "";
+
+        foreach ($entities as $entity) {
+            $entitiesHTML .= $entity->getName();
+        }
+
+        return $entitiesHTML . "<br>";
     }
 
 }
