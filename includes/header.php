@@ -3,7 +3,9 @@
 require_once "config.php";
 include_once "includes/header_scripts.php";
 include "includes/classes/Entity.php";
+include "includes/classes/EntityProvider.php";
 include "includes/classes/PreviewProvider.php";
+include "includes/classes/CategoryContainers.php";
 
 if (!isset($_SESSION['userLoggedIn'])) {
     header("Location: login.php");
