@@ -29,6 +29,13 @@ class CategoryContainers
         $categoryID = $sqlData['id'];
         $title = $title == null ? $sqlData['name'] : $title;
 
+        if ($tvshows && $movies) {
+            $entities = EntityProvider::getEntities($this->con, $categoryID, 30);
+        } else if ($tvshows) {
+            //get tvshow entities
+        } else {
+            //get movie entities
+        }
     }
 
 }
