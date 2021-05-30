@@ -30,7 +30,7 @@ class CategoryContainers
         $title = $title == null ? $sqlData['name'] : $title;
 
         if ($tvshows && $movies) {
-            $entities = EntityProvider::getEntities($this->con, $categoryID, 30);
+            $entities = EntityProvider::getEntities($this->con, $categoryID, 50);
         } else if ($tvshows) {
             //get tvshow entities
         } else {
@@ -42,12 +42,21 @@ class CategoryContainers
         }
 
         $entitiesHTML = "";
-
+        $previewprovider = new PreviewProvider($this->con, $this->username);
         foreach ($entities as $entity) {
-            $entitiesHTML .= $entity->getName();
+            $entitiesHTML .= $previewprovider->createEntityPreviewSquare($entity);
         }
 
-        return $entitiesHTML . "<br>";
+        return "
+        <div class='category'>
+            <a href='category.php?id=$categoryID'>
+                <h3>$title</h3>
+            </a>
+            <div class='entities'>
+                $entitiesHTML
+            </div>
+        </div>
+        ";
     }
 
 }

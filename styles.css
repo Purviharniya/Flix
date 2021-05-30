@@ -37,6 +37,19 @@ input[type="email"]:focus {
   display: flex;
 }
 
+.previewContainer.small {
+  width: 230px;
+  height: 129px;
+  display: inline-flex;
+  margin-right: 4px;
+}
+
+.previewContainer.small img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .preview-overlay {
   height: 100%;
   width: 100%;
@@ -85,3 +98,58 @@ input[type="email"]:focus {
   min-height: 100vh;
   background-color: #141414;
 }
+
+.category {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+}
+
+.category a {
+  color: #e6e6e6;
+  text-decoration: none;
+}
+
+.entities {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* SCROLLBAR */
+
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #a8a8a8;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: grey;
+}
+
+.entities::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+.entities::-webkit-scrollbar-thumb {
+  background: #3f3e3e;
+  border-radius: 10px;
+}
+
+/* END SCROLLBAR  */

@@ -42,6 +42,19 @@ class PreviewProvider
         </div>";
     }
 
+    public function createEntityPreviewSquare($entity)
+    {
+        $id = $entity->getId();
+        $name = $entity->getName();
+        $thumbnail = $entity->getThumbnail();
+
+        return "<a href='entity.php?id=$id'>
+                    <div class='previewContainer small'>
+                        <img src='$thumbnail' alt='$name'>
+                    </div>
+                </a>";
+    }
+
     private function getRandomEntity()
     {
         $entity = EntityProvider::getEntities($this->con, null, 1);
