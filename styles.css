@@ -210,6 +210,10 @@ input[type="email"]:focus {
   white-space: normal;
 }
 
+.episodeContainer .videoInfo h4{
+  font-size: 1.3rem;
+}
+
 .episodeContainer .videoInfo {
   max-height: 200px;
   overflow-y: auto;
@@ -217,5 +221,13 @@ input[type="email"]:focus {
 }
 
 .episodeContainer .videoInfo::-webkit-scrollbar {
+  display: none;
+}
+
+.previewCategories.noScroll .category .entities{
+  white-space: normal;
+}
+
+.previewCategories.noScroll .category .entities::-webkit-scrollbar{
   display: none;
 }

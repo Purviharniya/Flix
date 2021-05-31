@@ -13,7 +13,7 @@ class SeasonProvider
     public function create($entity)
     {
         $seasons = $entity->getSeasons($entity);
-        
+
         if (sizeof($seasons) == 0) {
             return;
         }
@@ -23,8 +23,8 @@ class SeasonProvider
         foreach ($seasons as $season) {
             $seasonNumber = $season->getSeasonNumber();
 
-            $videosHTML="";
-            foreach($season->getVideos() as $video){
+            $videosHTML = "";
+            foreach ($season->getVideos() as $video) {
                 $videosHTML .= $this->createVideoSquare($video);
             }
 
@@ -37,7 +37,8 @@ class SeasonProvider
         return $seasonsHTML;
     }
 
-    private function createVideoSquare($video){
+    private function createVideoSquare($video)
+    {
         $id = $video->getId();
         $thumbnail = $video->getThumbnail();
         $name = $video->getTitle();
@@ -50,13 +51,13 @@ class SeasonProvider
                 <div class='contents'>
                     <img src='$thumbnail' alt='$name'>
                     <div class='videoInfo'>
-                        <h4>$name</h4>
+                        <h4>$episodenumber. $name</h4>
                         <span>$description</span>
                     </div>
                 </div>
             </div>
         </a>
             ";
-        
+
     }
 }
