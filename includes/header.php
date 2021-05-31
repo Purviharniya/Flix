@@ -6,6 +6,11 @@ include "includes/classes/Entity.php";
 include "includes/classes/EntityProvider.php";
 include "includes/classes/PreviewProvider.php";
 include "includes/classes/CategoryContainers.php";
+include "includes/classes/ErrorMessage.php";
+include "includes/classes/SeasonProvider.php";
+include "includes/classes/Season.php";
+include "includes/classes/Video.php";
+
 
 if (!isset($_SESSION['userLoggedIn'])) {
     header("Location: login.php");
