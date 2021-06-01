@@ -231,3 +231,7 @@ input[type="email"]:focus {
 .previewCategories.noScroll .category .entities::-webkit-scrollbar{
   display: none;
 }
+
+.watchContainer video{
+  width: 100%;
+}
