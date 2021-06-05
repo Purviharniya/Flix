@@ -31,22 +31,27 @@ function startHideTimer() {
 function initVideo(videoID, username) {
   startHideTimer();
   // console.log(videoID,username);
+  setStartTime(videoID, username);
   updateProgressTimer(videoID, username);
 }
 
 function updateProgressTimer(videoID, username) {
   addDuration(videoID, username);
-  var timer ;
+  var timer;
 
-  $("video").on("playing",function(event){
+  $("video")
+    .on("playing", function (event) {
       // console.log("hi");
       window.clearInterval(timer);
-      timer = window.setInterval(function(){
-
-      },3000);
-  }).on("ended",function(){
-    window.clearInterval(timer);
-  })
+      timer = window.setInterval(function () {
+        // console.log("hi") //executes every 3 seconds
+        updateProgress(videoID, username, event.target.currentTime);
+      }, 3000);
+    })
+    .on("ended", function () {
+      window.clearInterval(timer);
+      setFinished(videoID, username);
+    });
 }
 
 function addDuration(videoID, username) {
@@ -57,6 +62,50 @@ function addDuration(videoID, username) {
       if (data !== null && data !== "") {
         alert(data);
       }
+    }
+  );
+}
+
+function updateProgress(videoId, username, progress) {
+  // console.log(progress);
+  $.post(
+    "ajax/updateDuration.php",
+    { videoID: videoId, username: username, progress: progress },
+    function (data) {
+      if (data !== null && data !== "") {
+        alert(data);
+      }
+    }
+  );
+}
+
+function setFinished(videoId, username) {
+  // console.log(progress);
+  $.post(
+    "ajax/setFinished.php",
+    { videoID: videoId, username: username },
+    function (data) {
+      if (data !== null && data !== "") {
+        alert(data);
+      }
+    }
+  );
+}
+
+function setStartTime(videoId, username) {
+  // console.log(progress);
+  $.post(
+    "ajax/getProgress.php",
+    { videoID: videoId, username: username },
+    function (data) {
+      if (isNaN(data)) {
+        alert(data);
+        return;
+      }
+      $("video").on("canplay", function () {
+        this.currentTime = data;
+        $("video").off("canplay");
+      });
     }
   );
 }
