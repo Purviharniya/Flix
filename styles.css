@@ -235,3 +235,26 @@ input[type="email"]:focus {
 .watchContainer video{
   width: 100%;
 }
+
+.videoControls.watchnav{
+position: absolute;
+width: 100%;
+z-index: 1;
+display: flex;
+align-items: center;
+background-color: rgba(0, 0, 0,0.5);
+color: #fff;
+}
+
+.videoControls button{
+  font-size: 1.5rem;
+  padding: 1.5rem;
+  background-color: transparent;
+  color: #fff;
+  outline: none;
+  border: 0;
+}
+
+.videoControls h3{
+  margin: 0 !important;
+}
