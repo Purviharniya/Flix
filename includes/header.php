@@ -10,6 +10,7 @@ include "includes/classes/ErrorMessage.php";
 include "includes/classes/SeasonProvider.php";
 include "includes/classes/Season.php";
 include "includes/classes/Video.php";
+include "includes/classes/VideoProvider.php";
 
 
 if (!isset($_SESSION['userLoggedIn'])) {
