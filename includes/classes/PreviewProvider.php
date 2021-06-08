@@ -23,6 +23,15 @@ class PreviewProvider
         $categoryID = $entity->getCategoryID();
 
         //TODO: Add subtitle in the overlay
+
+        $videoId = VideoProvider::getEntityVideoForUser($this->con, $id, $this->username);
+        $video = new Video($this->con, $videoId);
+
+        $subHeading = $video->isMovie() ? "" : "<h4>" . $video->getSeasonAndEpisode() . "</h4>";
+
+        $inProgress = $video->isInProgress($this->username);
+        $playbuttontext = $inProgress ? "Continue Watching" : "Play";
+
         return "<div class='preview-container'>
                 <img src='$thumbnail' class='preview-image' hidden>
 
@@ -33,8 +42,9 @@ class PreviewProvider
                 <div class='preview-overlay'>
                     <div class='main-details'>
                         <h3> $name </h3>
+                        <div>$subHeading</div>
                         <div class='overlay-buttons'>
-                            <button> <i class='fas fa-play'></i> Play </button>
+                            <button onclick='watchVideo($videoId)'> <i class='fas fa-play'></i> $playbuttontext </button>
                             <button onclick='volumeToggle(this)'><i class='fas fa-volume-mute'></i></button>
                         </div>
                     </div>
