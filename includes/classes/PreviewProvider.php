@@ -52,6 +52,17 @@ class PreviewProvider
         </div>";
     }
 
+
+    public function createTVShowPreviewVideo(){
+        $entitiesArray = EntityProvider::getTVShowEntities($this->con,null,1);
+        
+        if(sizeof($entitiesArray)==0){
+            return ErrorMessage::show("No TV Shows to display");
+        }
+        // print_r($entitiesArray);
+        return $this->createPreviewVideo($entitiesArray[0]);
+    }
+
     public function createEntityPreviewSquare($entity)
     {
         $id = $entity->getId();

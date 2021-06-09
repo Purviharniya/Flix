@@ -98,7 +98,7 @@ input[type="email"]:focus {
 }
 
 .wrapper {
-  min-width: 1050px;
+  /* min-width: 1050px; */
   min-height: 100vh;
   background-color: #141414;
 }
@@ -274,4 +274,43 @@ input[type="email"]:focus {
 
 .watchnav {
   z-index: 2 !important   ;
+}
+
+.episodeContainer .contents .seen {
+  position: absolute;
+  color: #2ecc71;
+  font-size: 26px;
+  top: 5px;
+  left: 5px;
+}
+
+.topbar {
+  position: fixed;
+  z-index: 1;
+  color: white;
+  width: 100%;
+}
+
+.navbar-brand,
+.nav-link,
+.navbar-toggler {
+  color: #fff;
+  font-weight: 800;
+  border: #fff;
+}
+
+.navbar-brand:hover,
+.nav-link:hover,
+.navbar-toggler:hover {
+  color: #2ecc71;
+  font-weight: 800;
+}
+
+.topbar.scrolled {
+  background-color: #141414;
+  transition: background-color 400ms linear;
+}
+
+.previewCategories h1{
+  color: #e6e6e6;
 }

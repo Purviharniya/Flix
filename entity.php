@@ -17,6 +17,7 @@ echo $preview->createPreviewVideo($entity);
 $seasonProvider = new SeasonProvider($con, $username);
 echo $seasonProvider->create($entity);
 
-
 $categoryContainers = new CategoryContainers($con, $username);
-echo $categoryContainers->showCategory($entity->getCategoryID(),"You might also like");
+echo $categoryContainers->showCategory($entity->getCategoryID(), "You might also like");
+
+include 'includes/footer.php';

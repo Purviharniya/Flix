@@ -12,7 +12,6 @@ include "includes/classes/Season.php";
 include "includes/classes/Video.php";
 include "includes/classes/VideoProvider.php";
 
-
 if (!isset($_SESSION['userLoggedIn'])) {
     header("Location: login.php");
 }
@@ -34,3 +33,11 @@ $username = $_SESSION['userLoggedIn'];
 
 <body>
     <div class='wrapper'>
+
+        <?php
+
+if (!isset($hideNav)) {
+    include_once "includes/navbar.php";
+}
+
+?>
