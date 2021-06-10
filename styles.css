@@ -314,3 +314,7 @@ input[type="email"]:focus {
 .previewCategories h1{
   color: #e6e6e6;
 }
+
+.textboxContainer{
+  padding-top: 100px !important;
+}
