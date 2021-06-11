@@ -311,10 +311,19 @@ input[type="email"]:focus {
   transition: background-color 400ms linear;
 }
 
-.previewCategories h1{
+.previewCategories h1 {
   color: #e6e6e6;
 }
 
-.textboxContainer{
+.textboxContainer {
   padding-top: 100px !important;
+}
+
+.settingsContainer {
+  padding-top: 100px !important;
+  color: white;
+}
+
+.formSection{
+  padding: 20px 0;
 }

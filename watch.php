@@ -43,3 +43,8 @@ $upnext = VideoProvider::getUpNext($con, $video);
 <script>
 initVideo("<?php echo $video->getId(); ?>", "<?php echo $username; ?>");
 </script>
+
+
+<?php 
+include "includes/footer.php";
+?>

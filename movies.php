@@ -13,3 +13,8 @@ echo $categories->showMovieCategories();
 
 
 <div></div>
+
+
+<?php 
+include "includes/footer.php";
+?>

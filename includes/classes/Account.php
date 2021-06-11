@@ -9,6 +9,28 @@ class Account
         $this->con = $con;
     }
 
+    public function updateDetails($fn, $ln, $un, $em)
+    {
+        $this->validateFirstName($fn);
+        $this->validateLastName($ln);
+        $this->validateNewEmail($em, $_SESSION['userLoggedIn']);
+        $this->validateNewUserName($un);
+
+        if (empty($this->errorArray)) {
+            $query = $this->con->prepare("UPDATE users SET firstName=:fn, lastName=:ln, email=:em,username=:un where username=:un_old");
+            $query->bindValue(":fn", $fn);
+            $query->bindValue(":ln", $ln);
+            $query->bindValue(":em", $em);
+            $query->bindValue(":un", $un);
+            $query->bindValue(":un_old", $_SESSION['userLoggedIn']);
+            $query->execute();
+            $_SESSION['userLoggedIn'] = $un;
+            return true;
+        }
+
+        return false;
+    }
+
     public function register($fname, $lname, $uname, $email, $cemail, $pass, $cpass)
     {
         $this->validateFirstName($fname);
@@ -98,6 +120,26 @@ class Account
         }
     }
 
+    private function validateNewUserName($uname)
+    {
+        if ($uname != $_SESSION['userLoggedIn']) {
+
+            //2-25 chars
+            if (strlen($uname) < 5 || strlen($uname) > 25) {
+                array_push($this->errorArray, Constants::$userNameChars);
+                return;
+            }
+
+            //duplicate check
+            $query = $this->con->prepare("SELECT * FROM users where username=:uname");
+            $query->bindValue(":uname", $uname);
+            $query->execute();
+            if ($query->rowCount() != 0) {
+                array_push($this->errorArray, Constants::$userNameDup);
+            }
+        }
+    }
+
     private function validateEmails($email, $cemail)
     {
         //email formats
@@ -115,6 +157,24 @@ class Account
         //duplicate check
         $query = $this->con->prepare("SELECT * FROM users where email=:email");
         $query->bindValue(":email", $email);
+        $query->execute();
+        if ($query->rowCount() != 0) {
+            array_push($this->errorArray, Constants::$emailDup);
+        }
+    }
+
+    private function validateNewEmail($email, $un)
+    {
+        //email formats
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            array_push($this->errorArray, Constants::$emailInvalid);
+            return;
+        }
+
+        //duplicate check
+        $query = $this->con->prepare("SELECT * FROM users where email=:email and username!=:un");
+        $query->bindValue(":email", $email);
+        $query->bindValue(":un", $un);
         $query->execute();
         if ($query->rowCount() != 0) {
             array_push($this->errorArray, Constants::$emailDup);
@@ -141,6 +201,13 @@ class Account
         if (in_array($error, $this->errorArray)) {
             return "<div class='text-danger reg-error'> $error </div>";
         }
+    }
+
+    public function getFirstError(){
+        if(!empty($this->errorArray)){
+            return $this->errorArray[0];
+        }
+            
     }
 
 }

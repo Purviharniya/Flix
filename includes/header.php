@@ -11,6 +11,8 @@ include "includes/classes/SeasonProvider.php";
 include "includes/classes/Season.php";
 include "includes/classes/Video.php";
 include "includes/classes/VideoProvider.php";
+include "includes/classes/User.php";
+
 
 if (!isset($_SESSION['userLoggedIn'])) {
     header("Location: login.php");
