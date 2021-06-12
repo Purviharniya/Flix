@@ -11,5 +11,5 @@
 # Home Page
 ![Home Page](https://github.com/Purviharniya/Flix/blob/master/screencapture-localhost-Netflix-index-php-2021-06-12-18_09_02.png)
 
-#Entity Page
+# Entity Page
 ![Entity Page](https://github.com/Purviharniya/Flix/blob/master/screencapture-localhost-Netflix-entity-php-2021-06-12-18_11_23.png)
