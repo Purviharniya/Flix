@@ -6,6 +6,13 @@ if (!isset($_GET['id'])) {
     ErrorMessage::show("Episode ID was not passed in the page");
 }
 
+$user = new User($con,$username);
+
+if(!$user->getIsSubscribed()){
+    ErrorMessage::show(" You must subscribe to watch this. <a href='profile.php'> Click here to subscribe</a>");
+}
+
+
 $id = $_GET['id'];
 $video = new Video($con, $id);
 $video->incrementViews();
@@ -39,12 +46,11 @@ $upnext = VideoProvider::getUpNext($con, $video);
     </video>
 
 </div>
-
+<div class='container text-light py-5'>
+    <h2><?php echo $video->getSeasonAndEpisode(); ?></h2>
+    <h3>Description</h3>
+    <?php echo $video->getDescription();?>
+</div>
 <script>
 initVideo("<?php echo $video->getId(); ?>", "<?php echo $username; ?>");
 </script>
-
-
-<?php 
-include "includes/footer.php";
-?>

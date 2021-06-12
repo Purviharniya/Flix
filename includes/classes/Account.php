@@ -31,6 +31,27 @@ class Account
         return false;
     }
 
+    public function changePassword($currentpass, $newpass, $newpass2)
+    {
+        $this->validatePasswords($newpass, $newpass2);
+        $query = $this->con->prepare("SELECT password from users where username=:username");
+        $query->bindValue(":username", $_SESSION['userLoggedIn']);
+        $query->execute();
+        $col = $query->fetchColumn();
+
+        if ($col == hash("sha512", $currentpass)) {
+            //update password
+            $newhashpass = hash("sha512", $newpass);
+            $q2 = $this->con->prepare("UPDATE users set password=:newpass where username=:username");
+            $q2->bindValue(":newpass", $newhashpass);
+            $q2->bindValue(":username", $_SESSION['userLoggedIn']);
+            return true;
+        } else {
+            array_push($this->errorArray, Constants::$currentpassWrong);
+            return false;
+        }
+    }
+
     public function register($fname, $lname, $uname, $email, $cemail, $pass, $cpass)
     {
         $this->validateFirstName($fname);
@@ -203,11 +224,12 @@ class Account
         }
     }
 
-    public function getFirstError(){
-        if(!empty($this->errorArray)){
+    public function getFirstError()
+    {
+        if (!empty($this->errorArray)) {
             return $this->errorArray[0];
         }
-            
+
     }
 
 }

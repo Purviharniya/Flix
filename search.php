@@ -29,15 +29,10 @@ $(function() {
                     $(".results").html(data);
                 })
             } else {
-                $(".results").html("No results found");
+                $(".results").html("");
             }
         }, 500);
     });
 
 });
 </script>
-
-
-<?php 
-include "includes/footer.php";
-?>

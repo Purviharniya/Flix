@@ -31,5 +31,18 @@ class User{
         return $this->sqlData['email'];
     }
 
+    public function getIsSubscribed(){
+        return $this->sqlData['isSubscribed'];
+    }
     
+    public function setIsSubscribed($value){
+        $query = $this->con->prepare("UPDATE users set isSubscribed=:subs where username=:username");
+        $query->bindValue(":subs",$value);
+        $query->bindValue(":username",$this->username);
+        if($query->execute()){
+            $this->sqlData['isSubscribed'] = $value;
+            return true;
+        }
+        return false;
+    }
 }

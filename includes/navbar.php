@@ -27,6 +27,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="profile.php"><i class="fas fa-user"></i></a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt"></i></a>
+                </li>
             </ul>
         </div>
     </nav>

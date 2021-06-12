@@ -14,5 +14,6 @@ class Constants
     public static $invalidPassword = "Password should have 8-20 characters, atleast one Uppercase letter, atleast one number and atleast one special character";
     public static $passwordMatch = "Password and confirm password don't match";
     public static $loginFailed = "Username or Password incorrect";
+    public static $currentpassWrong = "Current password is invalid";
 
 }

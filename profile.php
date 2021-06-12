@@ -3,14 +3,34 @@ include "includes/header.php";
 require_once 'includes/classes/FormSanitizer.php';
 require_once 'includes/classes/Constants.php';
 require_once 'includes/classes/Account.php';
+require_once 'includes/classes/User.php';
+require_once 'includes/classes/BillingDetails.php';
 $detMsg = '';
+$det2Msg = '';
+$det3Msg = '';
 ?>
 
 <?php
+$acc = new Account($con);
+$user = new User($con, $username);
+
+if (isset($_POST['passbtn'])) {
+    $cpass = FormSanitizer::sanitizeFormPassword($_POST['cpass']);
+    $pass2 = FormSanitizer::sanitizeFormPassword($_POST['pass2']);
+    $cpass2 = FormSanitizer::sanitizeFormPassword($_POST['cpass2']);
+
+    if ($acc->changePassword($cpass, $pass2, $cpass2)) {
+        //success
+        $det2Msg = "<div class='alert alert-success'> Password changed Successfully <button type='button' class='close' data-dismiss='alert'>&times;</button></div>";
+    } else {
+        //failure
+        $erMsg = $acc->getFirstError();
+        $det2Msg = "<div class='alert alert-danger'>$erMsg<button type='button' class='close' data-dismiss='alert'>&times;</button></div>";
+    }
+
+}
 
 if (isset($_POST['userbtn'])) {
-
-    $acc = new Account($con);
 
     $fname = FormSanitizer::sanitizeFormString($_POST['fname']);
     $lname = FormSanitizer::sanitizeFormString($_POST['lname']);
@@ -27,6 +47,33 @@ if (isset($_POST['userbtn'])) {
     }
 }
 
+if (isset($_GET['success']) && $_GET['success'] == 'true') {
+    $token = $_GET['token'];
+    $agreement = new \PayPal\Api\Agreement();
+    $det3Msg = "<div class='alert alert-danger'>Something went wrong! Please try again.<button type='button' class='close' data-dismiss='alert'>&times;</button></div>";
+
+    try {
+        // Execute agreement
+        $agreement->execute($token, $apiContext);
+        //update db for issubscribed=1
+
+        $result = BillingDetails::insertDetails($con, $agreement, $token, $username);
+        $result = $result && $user->setIsSubscribed(1);
+
+        if ($result) {
+            $det3Msg = "<div class='alert alert-success'>Subscription successfull<button type='button' class='close' data-dismiss='alert'>&times;</button></div>";
+        }
+
+    } catch (PayPal\Exception\PayPalConnectionException $ex) {
+        echo $ex->getCode();
+        echo $ex->getData();
+        die($ex);
+    } catch (Exception $ex) {
+        die($ex);
+    }
+} else if (isset($_GET['success']) && $_GET['success'] == 'false') {
+    $det3Msg = "<div class='alert alert-danger'>User cancelled or something went wrong! Please try again.<button type='button' class='close' data-dismiss='alert'>&times;</button></div>";
+}
 ?>
 
 <?php
@@ -78,24 +125,44 @@ if (isset($_POST['userbtn'])) {
 
             <h2>Change Password </h2>
             <div class="form-group">
-                <label for="">Current password</label>
-                <input type="password" class="form-control" name='cpass'>
-            </div>
-            <div class="form-group">
-                <label for="">New password</label>
-                <input type="password" class="form-control" name='pass2'>
-            </div>
-            <div class="form-group">
-                <label for="">Confirm New password</label>
-                <input type="password" class="form-control" name='cpass2'>
-            </div>
-            <div class="form-group">
-                <input type="submit" class="btn btn-primary" name='passbtn' value='Change'>
-            </div>
+                <?php
+if (isset($_POST['passbtn'])) {
+    echo $det2Msg;
+}?>
+                <div class="form-group">
+                    <label for="">Current password</label>
+                    <input type="password" class="form-control" name='cpass'>
+                </div>
+                <div class="form-group">
+                    <label for="">New password</label>
+                    <input type="password" class="form-control" name='pass2'>
+                </div>
+                <div class="form-group">
+                    <label for="">Confirm New password</label>
+                    <input type="password" class="form-control" name='cpass2'>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" name='passbtn' value='Change'>
+                </div>
         </form>
+    </div>
+
+    <div class="formSection">
+        <h2>Subscription</h2>
+        <div class="form-group">
+            <?php echo $det3Msg; ?>
+        </div>
+        <?php
+if ($user->getIsSubscribed()) {
+    echo "<h3> You are subscribed! Visit PayPal to cancel.</h3>";
+} else {
+    echo "<a href='billing.php'>Subscribe</a>";
+}
+
+?>
     </div>
 </div>
 
-<?php 
+<?php
 include "includes/footer.php";
 ?>
