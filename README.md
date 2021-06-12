@@ -8,5 +8,5 @@
 6. Updating the profile of users
 7. Adding a TV show/Movie to the favourites section
 
-![Home Page](http://)
-![Entity Page](http://)
+![Home Page](https://github.com/Purviharniya/Flix/blob/master/screencapture-localhost-Netflix-index-php-2021-06-12-18_09_02.png)
+![Entity Page](https://github.com/Purviharniya/Flix/blob/master/screencapture-localhost-Netflix-entity-php-2021-06-12-18_11_23.png)
